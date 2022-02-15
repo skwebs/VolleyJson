@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.text_view);
         Button button = findViewById(R.id.btn_parse_json);
 
-        requestQueue = Volley.newRequestQueue(this);
+        requestQueue = VolleySingleton.getInstance(this).getmRequestQueue();
+//                Volley.newRequestQueue(this);
 
         button.setOnClickListener(view -> jsonParse());
 
