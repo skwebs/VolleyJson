@@ -6,21 +6,25 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 public class VolleySingleton {
-    private  static  VolleySingleton mInstance;
-    private RequestQueue mRequestQueue;
+    /**
+     * Purpose to create Volley Singleton is to create only one object of Volley
+     * So could be processed all request one by one without facing any issue
+     */
+    private static VolleySingleton volleySingleton; // created VolleySingleton instance
+    private final RequestQueue requestQueue;
 
-    private VolleySingleton(Context context){
-        mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
+    private VolleySingleton(Context context) {
+        requestQueue = Volley.newRequestQueue(context.getApplicationContext());
     }
 
-    public static synchronized VolleySingleton getInstance(Context context){
-        if (mInstance==null){
-            mInstance = new VolleySingleton(context);
+    public static synchronized VolleySingleton getInstance(Context context) {
+        if (volleySingleton == null) {
+            volleySingleton = new VolleySingleton(context);
         }
-        return mInstance;
+        return volleySingleton;
     }
 
-    public RequestQueue getmRequestQueue() {
-        return mRequestQueue;
+    public RequestQueue getRequestQueue() {
+        return requestQueue;
     }
 }
