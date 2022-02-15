@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
@@ -29,7 +30,30 @@ public class MainActivity extends AppCompatActivity {
 
         requestQueue = VolleySingleton.getInstance(this).getRequestQueue();
 
-        button.setOnClickListener(view -> jsonParse());
+        button.setOnClickListener(view -> jsonParse1());
+
+    }
+
+    private void jsonParse1() {
+        String url = "https://anshumemorial.in/experiment/data1.json";
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                response -> {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jsonObject = response.getJSONObject(i);
+                            int id = jsonObject.getInt("id");
+                            String title = jsonObject.getString("title");
+                            String body = jsonObject.getString("body");
+
+                            textView.append(id + ", " + title + ", " + body + "\n\n");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, Throwable::printStackTrace);
+        requestQueue.add(jsonObjectRequest);
 
     }
 
